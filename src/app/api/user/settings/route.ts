@@ -106,7 +106,7 @@ export async function PUT(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await auth()
     if (!session?.user?.id) {
@@ -144,8 +144,8 @@ export async function GET(request: NextRequest) {
       data: user 
     })
 
-  } catch (error) {
-    console.error('Settings fetch error:', error)
+  } catch (err) {
+    console.error('Settings fetch error:', err)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

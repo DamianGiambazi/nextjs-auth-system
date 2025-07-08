@@ -62,7 +62,7 @@ export function PasswordChangeForm() {
       } else {
         setMessage({ type: 'error', text: result.error || 'Failed to update password' })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'An error occurred. Please try again.' })
     } finally {
       setIsLoading(false)

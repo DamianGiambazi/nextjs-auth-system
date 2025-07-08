@@ -12,7 +12,7 @@ http://localhost:3000/signup
 
 Name: "Test User"
 Email: "test@example.com"
-Password: "TestPass123" (meets requirements)
+Password: "TestPass123" (meets requirements) MyNewPass123
 Confirm Password: "TestPass123"
 cmcu33udf0000vwv93o6lkkgf
 

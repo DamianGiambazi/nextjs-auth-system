@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Shield, Clock, MapPin, Monitor, CheckCircle, AlertTriangle, Info, XCircle } from 'lucide-react'
+import { Shield, MapPin, Monitor, CheckCircle, AlertTriangle, Info, XCircle } from 'lucide-react'
 
 interface SecurityEvent {
   id: string
   action: string
-  details: any
+  details: Record<string, unknown> | null
   success: boolean
   ipAddress?: string
   userAgent?: string
@@ -36,7 +36,7 @@ export function SecurityActivityLog({ className = '' }: SecurityActivityLogProps
       } else {
         setError(result.error || 'Failed to load security events')
       }
-    } catch (error) {
+    } catch {
       setError('Failed to load security events')
     } finally {
       setIsLoading(false)
@@ -106,6 +106,30 @@ export function SecurityActivityLog({ className = '' }: SecurityActivityLogProps
     if (userAgent.includes('Safari')) return 'Safari'
     if (userAgent.includes('Edge')) return 'Edge'
     return 'Unknown browser'
+  }
+
+  const renderEventDetails = (details: Record<string, unknown> | null) => {
+    if (!details || typeof details !== 'object') return null
+
+    const parts: string[] = []
+
+    if (details.reason && typeof details.reason === 'string') {
+      parts.push(`Reason: ${details.reason}`)
+    }
+
+    if (details.changes && Array.isArray(details.changes)) {
+      parts.push(`Changed: ${details.changes.join(', ')}`)
+    }
+
+    if (parts.length === 0) return null
+
+    return (
+      <div className="mt-2 text-xs text-gray-400">
+        {parts.map((part, index) => (
+          <span key={index}>{part}</span>
+        ))}
+      </div>
+    )
   }
 
   if (isLoading) {
@@ -196,16 +220,7 @@ export function SecurityActivityLog({ className = '' }: SecurityActivityLogProps
                   )}
                 </div>
 
-                {event.details && typeof event.details === 'object' && (
-                  <div className="mt-2 text-xs text-gray-400">
-                    {event.details.reason && (
-                      <span>Reason: {event.details.reason}</span>
-                    )}
-                    {event.details.changes && Array.isArray(event.details.changes) && (
-                      <span>Changed: {event.details.changes.join(', ')}</span>
-                    )}
-                  </div>
-                )}
+                {renderEventDetails(event.details)}
               </div>
             </div>
           ))}

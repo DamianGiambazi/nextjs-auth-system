@@ -5,9 +5,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Settings, Globe, Bell, Shield, CheckCircle, AlertCircle } from 'lucide-react'
+import { Settings, Bell, Shield, CheckCircle, AlertCircle } from 'lucide-react'
 
 const userSettingsSchema = z.object({
   theme: z.enum(['light', 'dark', 'system']),
@@ -87,7 +86,7 @@ export function UserSettingsForm({ initialData }: UserSettingsFormProps) {
       } else {
         setMessage({ type: 'error', text: result.error || 'Failed to update settings' })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'An error occurred. Please try again.' })
     } finally {
       setIsLoading(false)
