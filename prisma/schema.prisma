@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Core User model for NextAuth.js compatibility
+// Enhanced User model for NextAuth.js compatibility + Profile Management
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -18,6 +18,33 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  // Enhanced profile information
+  firstName     String?
+  lastName      String?
+  bio           String?      @db.Text
+  phone         String?
+  avatar        String?      // URL to profile image
+  dateOfBirth   DateTime?
+  location      String?
+  website       String?
+
+  // User preferences
+  timezone      String?      @default("UTC")
+  language      String       @default("en")
+  theme         String       @default("system") // light, dark, system
+
+  // Profile visibility and settings
+  profilePublic Boolean      @default(false)
+  emailVisible  Boolean      @default(false)
+
+  // Enhanced audit fields
+  lastActiveAt  DateTime?
+  profileCompleteness Float   @default(0.0) // 0-100 percentage
+
+  // Relations
+  profile       UserProfile?
+  securityLogs  SecurityLog[]
+
   // NextAuth.js required relations
   accounts      Account[]
   sessions      Session[]
@@ -25,7 +52,63 @@ model User {
   @@map("users")
 }
 
-// NextAuth.js required models (EXACT specification)
+// Extended profile information
+model UserProfile {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+
+  // Professional information
+  occupation    String?
+  company       String?
+  industry      String?
+  experience    String?  // Entry, Junior, Mid, Senior, Lead, Executive
+
+  // Social links
+  linkedinUrl   String?
+  githubUrl     String?
+  twitterUrl    String?
+
+  // Notification preferences
+  emailNotifications    Boolean @default(true)
+  pushNotifications     Boolean @default(true)
+  marketingEmails       Boolean @default(false)
+  securityAlerts        Boolean @default(true)
+
+  // Privacy settings
+  showEmail            Boolean @default(false)
+  showPhone            Boolean @default(false)
+  showLocation         Boolean @default(true)
+  profileVisibility    String  @default("private") // public, friends, private
+
+  // Additional preferences (JSON for flexibility)
+  preferences          Json?
+
+  // Timestamps
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+// Security audit logging
+model SecurityLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  action      String   // LOGIN, LOGOUT, PASSWORD_CHANGE, PROFILE_UPDATE, etc.
+  details     Json?    // IP address, user agent, additional context
+  success     Boolean  @default(true)
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("security_logs")
+}
+
+// NextAuth.js required models (EXACT specification - unchanged)
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -51,6 +134,7 @@ model Session {
   sessionToken String   @unique
   userId       String
   expires      DateTime
+
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
