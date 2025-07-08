@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { ProfileEditForm } from '@/components/dashboard/profile-edit-form'
 import { PasswordChangeForm } from '@/components/dashboard/password-change-form'
+import { UserSettingsForm } from '@/components/dashboard/user-settings-form'
 
 export default async function ProfileEditPage() {
   const session = await auth()
@@ -37,6 +38,12 @@ export default async function ProfileEditPage() {
         <div>
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Profile Information</h2>
           <ProfileEditForm user={user} />
+        </div>
+
+        {/* User Settings Section */}
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Preferences & Settings</h2>
+          <UserSettingsForm initialData={user} />
         </div>
 
         {/* Security Section */}
