@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 import { ProfileEditForm } from '@/components/dashboard/profile-edit-form'
 import { PasswordChangeForm } from '@/components/dashboard/password-change-form'
 import { UserSettingsForm } from '@/components/dashboard/user-settings-form'
+import { SecurityActivityLog } from '@/components/dashboard/security-activity-log'
 
 export default async function ProfileEditPage() {
   const session = await auth()
@@ -49,7 +50,10 @@ export default async function ProfileEditPage() {
         {/* Security Section */}
         <div>
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Security Settings</h2>
-          <PasswordChangeForm />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <PasswordChangeForm />
+            <SecurityActivityLog />
+          </div>
         </div>
       </div>
     </div>
