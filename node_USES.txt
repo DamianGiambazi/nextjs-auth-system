@@ -1,0 +1,9 @@
+
+cd C:\IsolatedNodeProjects\nextjs-auth-system
+
+nvm use 18.20.4
+
+psql 'postgresql://neondb_owner:npg_Jn0CexEtvM5O@ep-proud-star-a2apkbxo-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
+
+
+HGU*!@gcudFv7X78cF76Mt$yRNz6qmoode&DvKv9H6dsE&@VMB&4k!eg*a4Z
