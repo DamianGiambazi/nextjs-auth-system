@@ -6,8 +6,8 @@ export interface UserWithProfile extends User {
   securityLogs?: SecurityLog[]
   _count?: {
     securityLogs: number
-    accounts: number
-    sessions: number
+    accounts?: number
+    sessions?: number
   }
 }
 
