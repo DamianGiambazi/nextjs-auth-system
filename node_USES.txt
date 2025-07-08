@@ -3,7 +3,25 @@ cd C:\IsolatedNodeProjects\nextjs-auth-system
 
 nvm use 18.20.4
 
+npm run dev
+
+http://localhost:3000/
+http://localhost:3000/dashboard
+http://localhost:3000/signin
+http://localhost:3000/signup
+
+Name: "Test User"
+Email: "test@example.com"
+Password: "TestPass123" (meets requirements)
+Confirm Password: "TestPass123"
+cmcu33udf0000vwv93o6lkkgf
+
 psql 'postgresql://neondb_owner:npg_Jn0CexEtvM5O@ep-proud-star-a2apkbxo-pooler.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
 
 
 HGU*!@gcudFv7X78cF76Mt$yRNz6qmoode&DvKv9H6dsE&@VMB&4k!eg*a4Z
+
+
+# In a new PowerShell window (keep dev server running)
+cd C:\IsolatedNodeProjects\nextjs-auth-system
+npx prisma studio
